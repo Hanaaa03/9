@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terminal: Nuestros 9 Meses Juntos ❤</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #050508;
+      color: #00f0ff;
+      font-family: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', Consolas, monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* Contenedor principal estilo Neón */
+    .terminal-window {
+      background: rgba(10, 10, 16, 0.95);
+      border: 2px solid #b026ff;
+      border-radius: 12px;
+      padding: 28px;
+      max-width: 660px;
+      width: 100%;
+      box-shadow: 0 0 30px rgba(176, 38, 255, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+    }
+
+    /* Cabecera de la terminal */
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 12px;
+      margin-bottom: 22px;
+      font-size: 12px;
+      color: #8a8a9e;
+      letter-spacing: 0.5px;
+    }
+
+    .terminal-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+
+    .btn-red { background-color: #ff0055; box-shadow: 0 0 6px #ff0055; }
+    .btn-purple { background-color: #b026ff; box-shadow: 0 0 6px #b026ff; }
+    .btn-cyan { background-color: #00f0ff; box-shadow: 0 0 6px #00f0ff; }
+
+    h1 {
+      font-size: 19px;
+      margin-bottom: 6px;
+      color: #ff0055;
+      text-shadow: 0 0 10px rgba(255, 0, 85, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    p.subtitle {
+      color: #00f0ff;
+      font-size: 13px;
+      margin-bottom: 24px;
+      opacity: 0.85;
+    }
+
+    .prompt-symbol {
+      color: #b026ff;
+      font-weight: bold;
+    }
+
+    /* Contenedor flexible para centrar las dos filas */
+    .grid-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 25px;
+      width: 100%;
+    }
+
+    .grid-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .day {
+      flex: 1;
+      max-width: 85px;
+      aspect-ratio: 1;
+      border-radius: 8px;
+      background-color: #101018;
+      border: 1.5px solid #1f1f30;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+    }
+
+    .day:hover {
+      transform: translateY(-3px) scale(1.06);
+      z-index: 5;
+      border-color: #ffffff !important;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+    }
+
+    .day.active {
+      border-color: #ffffff !important;
+      box-shadow: 0 0 15px #00f0ff, inset 0 0 8px #00f0ff;
+      transform: scale(1.05);
+    }
+
+    /* Estilos de colores por nivel */
+    .level-1 { background-color: #091a2a; border-color: #00f0ff; color: #00f0ff; }
+    .level-2 { background-color: #230a33; border-color: #b026ff; color: #d880ff; }
+    .level-3 { background-color: #380418; border-color: #ff0055; color: #ff5588; }
+
+    .special-day {
+      background-color: #ff0055 !important;
+      border-color: #ffffff !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 12px #ff0055;
+      animation: pulse 1.8s infinite alternate;
+    }
+
+    .kiss-day {
+      background-color: #ff007f !important;
+      border-color: #ffc0cb !important;
+      color: #ffffff !important;
+      font-size: 16px;
+      box-shadow: 0 0 16px #ff007f;
+      animation: pulse-kiss 1.3s infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 6px #ff0055; transform: scale(1); }
+      100% { box-shadow: 0 0 18px #ff0055; transform: scale(1.06); }
+    }
+
+    @keyframes pulse-kiss {
+      0% { box-shadow: 0 0 8px #ff007f; transform: scale(1); }
+      100% { box-shadow: 0 0 22px #ff007f; transform: scale(1.08); }
+    }
+
+    /* Tarjeta inferior */
+    .card {
+      background-color: #06060c;
+      border: 1.5px solid #00f0ff;
+      border-radius: 8px;
+      padding: 18px 20px;
+      min-height: 120px;
+      width: 100%;
+      box-shadow: inset 0 0 12px rgba(0, 240, 255, 0.08), 0 0 10px rgba(0, 240, 255, 0.15);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .card-header {
+      font-size: 11px;
+      color: #b026ff;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .card-title {
+      font-weight: bold;
+      color: #ff0055;
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+
+    .card-body {
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: #00f0ff;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 15px;
+      background-color: #00f0ff;
+      margin-left: 6px;
+      animation: blink 1s infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="terminal-window">
+    <div class="terminal-header">
+      <div class="terminal-buttons">
+        <div class="btn-dot btn-red"></div>
+        <div class="btn-dot btn-purple"></div>
+        <div class="btn-dot btn-cyan"></div>
+      </div>
+      <div>user@love-terminal: ~/9-meses-juntos</div>
+    </div>
+
+    <h1>
+      <span class="prompt-symbol">&gt;</span> ./ejecutar_historia.sh
+    </h1>
+    <p class="subtitle">
+      <span class="prompt-symbol">$</span> Toca cada cuadrito para leer los momentos especiales...
+    </p>
+
+    <!-- Fila 1: 6 elementos / Fila 2: 5 elementos centrados -->
+    <div class="grid-container">
+      <div class="grid-row" id="row1"></div>
+      <div class="grid-row" id="row2"></div>
+    </div>
+
+    <div class="card" id="card">
+      <div class="card-header" id="commit-date">[STATUS]: Esperando selección...</div>
+      <div class="card-title" id="commit-hash">&gt; Haz clic en un cuadrito ❤</div>
+      <div class="card-body" id="commit-msg">
+        <span id="msg-text">Cada botón guarda un pedacito de nuestra historia.</span>
+        <span class="cursor"></span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const commitsRow1 = [
+      { tag: "M1", date: "Mes 1", title: "Un nuevo trato y poquita pena", msg: "Después de un año de ser amigos, pasamos a ser novios. Al principio me daba bastante vergüenza adaptarme a este nuevo trato tan bonito, pero me encantaba." },
+      { tag: "M2", date: "Mes 2", title: "Entrando en confianza", msg: "Poco a poco la pena se fue yendo y nos fuimos soltando más. Empezamos a agarrar esa bonita confianza de pareja sabiendo que ya nos conocíamos superbién." },
+      { tag: "M3", date: "Mes 3", title: "Cariño que rompe distancias", msg: "Aprendiendo que no importan los kilómetros cuando alguien te hace sentir tan cerquita del corazón y lleno de cariño." },
+      { tag: "M4", date: "Mes 4", title: "Nuestras risas y complicidad", msg: "Construyendo nuestros propios chistes, nuestras costumbres y esa bonita confianza que siempre nos ha caracterizado." },
+      { tag: "M5", date: "Mes 5", title: "Tu apoyo incondicional", msg: "Gracias por estar para mí en mis días difíciles y de estudio, y por permitirme estar para ti." },
+      { tag: "M6", date: "Mes 6", title: "Medio año a tu lado", msg: "6 meses compartiendo nuestras vidas como pareja, acompañándonos y soñando con todo lo que queremos lograr." }
+    ];
+
+    const commitsRow2 = [
+      { tag: "M7", date: "Mes 7", title: "El día más mágico: ¡Nos vimos!", msg: "El momento más esperado de todos. Por fin abrazarte, sentirte cerquita y darnos nuestro primer beso. Fue inolvidable y el mejor recuerdo de mi vida. ❤️", type: "level-3" },
+      { tag: "M8", date: "Mes 8", title: "Recordando ese beso", msg: "Aunque volvimos a la distancia, haberme encontrado contigo hizo que te quisiera mil veces más.", type: "level-2" },
+      { tag: "M9", date: "Mes 9 (Hoy)", title: "Felices 9 meses, mi amor", msg: "Aunque este mes hayamos tenido poquito tiempo juntos por nuestras ocupaciones, quiero que sepas que te extraño muchísimo y que cada minuto a tu lado vale todo el oro del mundo.", type: "level-3" },
+      { tag: "✨", date: "Lo que viene", title: "Para nuestro futuro juntos ✨", msg: "Espero de todo corazón que sigamos así, súper unidos y cuidándonos siempre. Solo espero que nos veamos muy pronto para poder abrazarnos fuerte y estar juntos de nuevo. Te amo demasiado y me encantas un montón, mi amor. ❤", type: "special-day" },
+      { tag: "💋", date: "Petición Especial 💖", title: "Una preguntita...", msg: "Amor, me das un besito? por favor, DILOOO.  Muy cursi 😭", type: "kiss-day" }
+    ];
+
+    const row1 = document.getElementById('row1');
+    const row2 = document.getElementById('row2');
+    const commitDate = document.getElementById('commit-date');
+    const commitHash = document.getElementById('commit-hash');
+    const msgText = document.getElementById('msg-text');
+
+    function renderRow(container, items, isRow1) {
+      items.forEach((data, index) => {
+        const day = document.createElement('div');
+        day.innerText = data.tag;
+
+        if (isRow1) {
+          day.className = index % 2 === 0 ? "day level-1" : "day level-2";
+        } else {
+          day.className = `day ${data.type}`;
+        }
+
+        day.onclick = () => {
+          document.querySelectorAll('.day').forEach(d => d.classList.remove('active'));
+          day.classList.add('active');
+
+          commitDate.innerText = `[LOG_DATE]: ${data.date}`;
+          commitHash.innerText = `> ${data.title}`;
+          msgText.innerText = data.msg;
+        };
+
+        container.appendChild(day);
+      });
+    }
+
+    renderRow(row1, commitsRow1, true);
+    renderRow(row2, commitsRow2, false);
+  </script>
+</body>
+</html>
